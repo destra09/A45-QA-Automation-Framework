@@ -20,7 +20,7 @@ public class LoginTests extends BaseTest {
         providePassword("te$t$tudent");
         clickSubmit();
 
-        Assert.assertEquals(driver.getCurrentUrl(), url); //https://bbb.testpro.io/
+        Assert.assertEquals(driver.getCurrentUrl(), url); //https://testpro.io/
     }
 
     @Test (enabled = true, priority = 1, description = "Login with valid email and valid password")
