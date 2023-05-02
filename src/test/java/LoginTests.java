@@ -46,4 +46,22 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(avatarIcon.isDisplayed());
 //        Assert.assertEquals(avatarIcon.isDisplayed(), true);
     }
+
+    @Test
+    public static void registrationNavigation() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        String url = "https://bbb.testpro.io/";
+        driver.get(url);
+
+        WebElement registrationLink = driver.findElement(By.id("hel"));
+        registrationLink.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://bbb.testpro.io/registration.php");
+        driver.quit();
+    }
 }
