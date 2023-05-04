@@ -85,4 +85,39 @@ public class BaseTest {
         WebElement avatarIcon = driver.findElement(By.cssSelector("img.avatar"));
         avatarIcon.click();
     }
+
+    public void searchSong(String songTitle) throws InterruptedException {
+        WebElement searchField = driver.findElement(By.cssSelector("input[type='search']"));
+        searchField.sendKeys(songTitle);
+        Thread.sleep(2000);
+    }
+
+    public void searchViewAllResults() throws InterruptedException {
+        WebElement viewAllBtn = driver.findElement(By.cssSelector("div.results section.songs h1 button"));
+        viewAllBtn.click();
+        Thread.sleep(2000);
+    }
+
+    public void selectFirstSongResult() throws InterruptedException {
+        WebElement firstSongSelection = driver.findElement(By.cssSelector("section#songResultsWrapper tr.song-item td.title"));
+        firstSongSelection.click();
+        Thread.sleep(2000);
+    }
+
+    public void clickAddToBtn() throws InterruptedException {
+        WebElement addToBtn = driver.findElement(By.cssSelector("button.btn-add-to"));
+        addToBtn.click();
+        Thread.sleep(2000);
+    }
+
+    public void selectPlaylist() throws InterruptedException {
+        WebElement playlistElement = driver.findElement(By.xpath("//section[@id = 'songResultsWrapper']//li[contains(text(),'New Test')]"));
+        playlistElement.click();
+        Thread.sleep(2000);
+    }
+
+    public String getNotificationMessage(){
+        WebElement notificationElement = driver.findElement(By.cssSelector("div.success.show"));
+        return notificationElement.getText();
+    }
 }
