@@ -85,4 +85,17 @@ public class BaseTest {
         WebElement avatarIcon = driver.findElement(By.cssSelector("img.avatar"));
         avatarIcon.click();
     }
+
+    public void playNextSong() {
+        WebElement playNextBtn = driver.findElement(By.xpath("//i[@data-testid='play-next-btn']"));
+        playNextBtn.click();
+
+        WebElement playBtn = driver.findElement(By.xpath("//span[@data-testid='play-btn']"));
+        playBtn.click();
+    }
+
+    public boolean songPlayingCheck() {
+        WebElement soundBar = driver.findElement(By.xpath("//div[@data-testid='sound-bar-play']"));
+        return soundBar.isDisplayed();
+    }
 }
