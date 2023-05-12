@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -23,13 +24,17 @@ public class BaseTest {
     }
 
     @BeforeMethod
-    public void launchBrowser() {
+    @Parameters ({"baseURL"})
+    public void launchBrowser(String baseURL) {
         //      Added ChromeOptions argument below to fix websocket error
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        url = baseURL;
+        driver.get(url);
+
     }
 
     @AfterMethod
@@ -84,5 +89,27 @@ public class BaseTest {
     public static void clickAvatarIcon() {
         WebElement avatarIcon = driver.findElement(By.cssSelector("img.avatar"));
         avatarIcon.click();
+    }
+
+    public void openPlaylist() {
+        WebElement emptyPlaylist = driver.findElement(By.cssSelector(".playlist:nth-child(3)"));
+        emptyPlaylist.click();
+    }
+
+    public void clickDeletePlaylistBtn() throws InterruptedException {
+        WebElement deletePlaylist = driver.findElement(By.cssSelector(".btn-delete-playlist"));
+        deletePlaylist.click();
+        Thread.sleep(2000);
+    }
+
+    public void confirmDeletePlaylistPopup() throws InterruptedException {
+        WebElement confirmDeletePopup = driver.findElement(By.cssSelector("button[class = 'ok']"));
+        confirmDeletePopup.click();
+        Thread.sleep(2000);
+    }
+
+    public String getDeletedPlaylistMsg() {
+        WebElement notificationMsg = driver.findElement(By.cssSelector("div.success.show"));
+        return notificationMsg.getText();
     }
 }
