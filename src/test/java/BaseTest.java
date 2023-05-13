@@ -99,13 +99,13 @@ public class BaseTest {
     public void clickDeletePlaylistBtn() throws InterruptedException {
         WebElement deletePlaylist = driver.findElement(By.cssSelector(".btn-delete-playlist"));
         deletePlaylist.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
     }
 
     public void confirmDeletePlaylistPopup() throws InterruptedException {
         WebElement confirmDeletePopup = driver.findElement(By.cssSelector("button[class = 'ok']"));
         confirmDeletePopup.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
     }
 
     public String getDeletedPlaylistMsg() {
