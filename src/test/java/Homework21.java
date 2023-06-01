@@ -14,10 +14,10 @@ public class Homework21 extends BaseTest {
         clickSubmit();
 
         //WHEN
-        //doubleClickSelectedPlaylist();
-        //enterNewPlaylistName();
+        doubleClickSelectedPlaylist();
+        enterNewPlaylistName();
 
         //THEN
-       //Assert.assertTrue(doesPlaylistExist());
+       Assert.assertTrue(doesPlaylistExist());
     }
 }

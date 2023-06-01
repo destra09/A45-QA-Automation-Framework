@@ -25,7 +25,7 @@ public class BaseTest {
 
     public static String url = "https://bbb.testpro.io/";
 
-    public static Actions actions = new Actions(driver);
+    public static Actions actions = null;
 
     public static String playlistName = null;
 
@@ -44,6 +44,7 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         url = baseURL;
         driver.get(url);
 
