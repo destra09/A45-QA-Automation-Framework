@@ -1,22 +1,33 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 
 public class BaseTest {
 
     public static WebDriver driver = null;
 
-    public static String url = "https://bbb.testpro.io/";
+    public static WebDriverWait wait = null;
+
+    public static String url = null;
+
+    public static Actions actions = null;
+
+    public static String playlistName = null;
 
     @BeforeSuite
     static void setupClass() {
@@ -32,8 +43,11 @@ public class BaseTest {
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         url = baseURL;
         driver.get(url);
+        driver.manage().window().maximize();
 
     }
 
@@ -111,5 +125,22 @@ public class BaseTest {
     public String getDeletedPlaylistMsg() {
         WebElement notificationMsg = driver.findElement(By.cssSelector("div.success.show"));
         return notificationMsg.getText();
+    }
+
+    public void doubleClickSelectedPlaylist(){
+        WebElement selectedPlaylist = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".playlist:nth-child(3)")));
+            actions.doubleClick(selectedPlaylist).perform();
+        }
+
+    public void enterNewPlaylistName(){
+        WebElement playlistInputField = driver.findElement(By.cssSelector("input[name='name']"));
+        playlistInputField.sendKeys((Keys.chord(Keys.CONTROL, "a",Keys.BACK_SPACE)));
+        playlistInputField.sendKeys(playlistName);
+        playlistInputField.sendKeys(Keys.ENTER);
+    }
+
+    public boolean doesPlaylistExist(){
+        WebElement playlistElement = driver.findElement(By.xpath("//a[text()='"+playlistName+"']"));
+        return playlistElement.isDisplayed();
     }
 }

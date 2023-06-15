@@ -2,10 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="TestNG">
-    <parameter name="baseURL" value="https://bbb.testpro.io/"/>
-    <test name="Homework19 Test" preserve-order="false">
+
+    <test name="Homework23 Test" preserve-order="false">
+        <parameter name="baseURL" value="https://qa.koel.app/"/>
         <classes>
-            <class name="Homework19"/>
+            <class name="Homework23"/>
         </classes>
     </test>
 </suite>
