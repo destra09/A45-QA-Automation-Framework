@@ -23,7 +23,7 @@ public class BaseTest {
 
     public static WebDriverWait wait = null;
 
-    public static String url = "https://bbb.testpro.io/";
+    public static String url = null;
 
     public static Actions actions = null;
 
@@ -47,6 +47,7 @@ public class BaseTest {
         actions = new Actions(driver);
         url = baseURL;
         driver.get(url);
+        driver.manage().window().maximize();
 
     }
 
