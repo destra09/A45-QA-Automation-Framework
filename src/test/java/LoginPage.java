@@ -16,6 +16,9 @@ public class LoginPage extends BasePage {
     @FindBy(css = "button[type='submit']")
     WebElement submitBtn;
 
+    @FindBy(css = "div[class='logo']")
+    WebElement imgKoelMain;
+
     public LoginPage provideEmail(String email) {
         emailField.sendKeys(email);
         return this;
@@ -30,6 +33,11 @@ public class LoginPage extends BasePage {
         submitBtn.click();
         return this;
     }
+
+    public WebElement getKoelImg(){
+        return imgKoelMain;
+    }
+
 
 /*    public void login() {
         provideEmail("denise.estrada@testpro.io");

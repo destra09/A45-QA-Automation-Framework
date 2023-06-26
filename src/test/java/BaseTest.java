@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -21,8 +22,10 @@ import org.testng.annotations.Parameters;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BaseTest {
@@ -37,6 +40,8 @@ public class BaseTest {
 
     public static String playlistName = null;
 
+    public ThreadLocal<WebDriver> threadDriver = null;
+
     @BeforeSuite
     static void setupClass() {
 
@@ -50,20 +55,29 @@ public class BaseTest {
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--remote-allow-origins=*");
 //        driver = new ChromeDriver(options);
-
+        threadDriver = new ThreadLocal<>();
         driver = pickBrowser(System.getProperty("browser"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        actions = new Actions(driver);
+        threadDriver.set(driver);
+
         url = baseURL;
-        driver.get(url);
-        driver.manage().window().maximize();
+        getDriver().get(url);
+//        driver.manage().window().maximize();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        actions = new Actions(getDriver());
+
 
     }
 
     @AfterMethod
     public void closeBrowser() {
-        driver.quit();
+        getDriver().quit();
+        threadDriver.remove();
+    }
+
+    public WebDriver getDriver(){
+        return threadDriver.get();
     }
 
     public static WebDriver pickBrowser(String browser) throws MalformedURLException {
@@ -85,6 +99,8 @@ public class BaseTest {
             case "grid-chrome":
                 caps.setCapability("browserName", "chrome");
                 return driver = new RemoteWebDriver(URI.create(gridURL).toURL(),caps);
+            case "cloud":
+                return lambdaTest();
             default:
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
@@ -93,6 +109,24 @@ public class BaseTest {
         }
     }
 
+    public static WebDriver lambdaTest() throws MalformedURLException {
+        String username = "denise.estrada";
+        String accessKey = "xMOUltrDVzj2Oli5eqinDHrHkwd9XXxwn1CRq40BsFJHt5fmDv";
+        String hubURL = "https://hub.lambdatest.com/wd/hub";
+
+        ChromeOptions browserOptions = new ChromeOptions();
+        browserOptions.setPlatformName("Windows 10");
+        browserOptions.setBrowserVersion("114.0");
+        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+        ltOptions.put("username", username);
+        ltOptions.put("accessKey", accessKey);
+        ltOptions.put("project", "Untitled");
+        ltOptions.put("w3c", true);
+        ltOptions.put("plugin", "java-testNG");
+        browserOptions.setCapability("LT:Options", ltOptions);
+
+        return new RemoteWebDriver(new URL(hubURL), browserOptions);
+    }
     public static void navigateToPage() {
         driver.get(url);
     }
