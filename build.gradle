@@ -10,14 +10,21 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.testng:testng:7.6.1'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.5.0'
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.3.1'
+    dependencies {
+        testImplementation 'org.testng:testng:7.6.1'
+        implementation 'org.seleniumhq.selenium:selenium-java:4.5.0'
+        testImplementation 'io.github.bonigarcia:webdrivermanager:5.3.1'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
+        implementation 'io.cucumber:cucumber-testng:7.9.0'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-core
+        implementation 'io.cucumber:cucumber-core:7.9.0'
+        implementation 'io.cucumber:cucumber-java:7.9.0'
+    }
 }
 
 test {
     useTestNG() {
-        suites "src/test/resources/HW23.xml"
-        systemProperty "browser", System.getProperty("browser")
+        suites "src/test/resources/HW27.xml"
+        //systemProperty "browser", System.getProperty("browser")
     }
 }
