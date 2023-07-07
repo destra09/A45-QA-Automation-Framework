@@ -16,6 +16,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import webPages.HomePage;
+import webPages.LoginPage;
 
 import java.time.Duration;
 
@@ -45,22 +47,26 @@ public class LoginStepDefinitions {
 
     @When("I enter email {string}")
     public void enterEmail(String email) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='email']"))).sendKeys(email);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.provideEmail(email);
     }
 
     @And("I enter password {string}")
     public void enterPassword(String password) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='password']"))).sendKeys(password);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.providePassword(password);
     }
 
     @And("I click submit")
     public void clickSubmit() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='submit']"))).click();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.clickSubmit();
     }
 
     @Then("I am logged in")
     public void userIsLoggedIn(){
-        Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
+        HomePage homePage = new HomePage(driver);
+        homePage.getUserAvatar();
     }
 
 }
