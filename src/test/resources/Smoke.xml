@@ -7,9 +7,9 @@
         <parameter name="baseURL" value="https://qa.koel.app/"/>
         <classes>
             <class name="LoginTests">
-                <methods>
-                    <include name="LoginValidEmailPasswordTest" />
-                </methods>
+<!--                <methods>-->
+<!--                    <include name="LoginValidEmailPasswordTest" />-->
+<!--                </methods>-->
             </class>
         </classes>
     </test>

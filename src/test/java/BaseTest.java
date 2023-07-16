@@ -38,43 +38,8 @@ public class BaseTest {
 
     public static Actions actions = null;
 
-    public static String playlistName = null;
-
     public ThreadLocal<WebDriver> threadDriver = null;
 
-    @BeforeSuite
-    static void setupClass() {
-
-        //WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeMethod
-    @Parameters ({"baseURL"})
-    public void launchBrowser(String baseURL) throws MalformedURLException {
-        threadDriver = new ThreadLocal<>();
-        driver = pickBrowser(System.getProperty("browser"));
-        threadDriver.set(driver);
-
-        url = baseURL;
-        getDriver().get(url);
-//        driver.manage().window().maximize();
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        actions = new Actions(getDriver());
-
-
-    }
-
-    @AfterMethod
-    public void closeBrowser() {
-        getDriver().quit();
-        threadDriver.remove();
-    }
-
-    public WebDriver getDriver(){
-        return threadDriver.get();
-    }
 
     public static WebDriver pickBrowser(String browser) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -106,6 +71,7 @@ public class BaseTest {
         }
     }
 
+    // LambdaTest trial expired
     public static WebDriver lambdaTest() throws MalformedURLException {
         String username = "denise.estrada";
         String accessKey = "xMOUltrDVzj2Oli5eqinDHrHkwd9XXxwn1CRq40BsFJHt5fmDv";
@@ -124,32 +90,31 @@ public class BaseTest {
 
         return new RemoteWebDriver(new URL(hubURL), browserOptions);
     }
-    public static void navigateToPage() {
-        driver.get(url);
+
+    @BeforeMethod
+    @Parameters ({"baseURL"})
+    public void launchBrowser(String baseURL) throws MalformedURLException {
+        threadDriver = new ThreadLocal<>();
+        driver = pickBrowser(System.getProperty("browser"));
+        threadDriver.set(driver);
+
+        url = baseURL;
+        getDriver().get(url);
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        actions = new Actions(getDriver());
+        driver.manage().window().maximize();
+
     }
 
-
-    public static void clickSaveButton() {
-        WebElement saveButton = driver.findElement(By.cssSelector("button.btn-submit"));
-        saveButton.click();
+    @AfterMethod
+    public void closeBrowser() {
+        getDriver().quit();
+        threadDriver.remove();
     }
 
-    public static void provideProfileName(String randomName) {
-        WebElement profileName = driver.findElement(By.cssSelector("[name='name']"));
-        profileName.clear();
-        profileName.sendKeys(randomName);
+    public WebDriver getDriver(){
+        return threadDriver.get();
     }
-
-    public static void provideCurrentPassword(String password) {
-        WebElement currentPassword = driver.findElement(By.cssSelector("[name='current_password']"));
-        currentPassword.clear();
-        currentPassword.sendKeys(password);
-    }
-
-    public static String generateRandomName() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
-
-
-
 }

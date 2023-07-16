@@ -10,8 +10,7 @@ public class PlaylistTests extends BaseTest {
         LoginPage loginPage = new LoginPage(getDriver());
         HomePage homePage = new HomePage(getDriver());
 
-        driver.manage().window().maximize();
-        playlistName = "PlaylistTest";
+        String playlistName = "PlaylistTest";
 
         //GIVEN
         loginPage.provideEmail("denise.estrada@testpro.io")
