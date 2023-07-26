@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import webPages.BasePage;
 
 public class HomePage extends BasePage {
-    @FindBy(css = "img.avatar")
+    @FindBy(css = "img[class='avatar']")
     WebElement userAvatarIcon;
 
     @FindBy(css = ".playlist:nth-child(3)")
@@ -27,6 +27,9 @@ public class HomePage extends BasePage {
     @FindBy(css = "input[name='name']")
     WebElement playlistInputField;
 
+    @FindBy(css = "button[class = 'logout control']")
+    WebElement logoutBtn;
+
     public HomePage(WebDriver givenDriver){
         super(givenDriver);
     }
@@ -34,6 +37,8 @@ public class HomePage extends BasePage {
     public WebElement getUserAvatar(){
         return userAvatarIcon;
     }
+
+    public WebElement getLogoutBtn() {return logoutBtn;}
 
     public void openPlaylist() {
         selectListedPlaylist.click();
@@ -65,4 +70,5 @@ public class HomePage extends BasePage {
         WebElement playlistElement = driver.findElement(By.xpath("//a[text()='"+playlistName+"']"));
         return playlistElement.isDisplayed();
     }
+
 }
